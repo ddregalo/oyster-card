@@ -7,6 +7,10 @@ describe OysterCard do
       expect(subject.balance).to eq(0)
   end
 
+  it 'Should initialize with empty journey_history' do
+    expect(subject.journey_history).to eq([])
+  end
+
   describe '#top_up' do
     # subject(:oystercard) { OysterCard.new }
     it 'Should add the top_up amount to balance' do
@@ -64,6 +68,13 @@ describe OysterCard do
       subject.touch_in(:fake_station)
       subject.touch_out(:fake_station)
       expect(subject.exit_station).to eq(:fake_station)
+    end
+
+    it 'Should store the complete journey in journey' do
+      subject.top_up(1)
+      subject.touch_in(:fake_station)
+      subject.touch_out(:fake_station)
+      expect(subject.journey).to eq(subject.journey_history.first)
     end
   end
 
