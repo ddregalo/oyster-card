@@ -45,7 +45,7 @@ describe OysterCard do
     it "Should record entry station upon touch in" do
       subject.top_up(1)
       subject.touch_in(:fake_station)
-      expect(subject.entry_station).to eq(:fake_station)
+      expect(subject.journey[:entry]).to eq(:fake_station)
     end
   end
 
@@ -60,14 +60,14 @@ describe OysterCard do
       subject.top_up(1)
       subject.touch_in(:fake_station)
       subject.touch_out(:fake_station)
-      expect(subject.entry_station).to eq(nil)
+      expect(subject.journey[:entry]).to eq(nil)
     end
 
     it 'Should remember exit_station upon touch_out' do
       subject.top_up(1)
       subject.touch_in(:fake_station)
       subject.touch_out(:fake_station)
-      expect(subject.exit_station).to eq(:fake_station)
+      expect(subject.journey[:exit]).to eq(:fake_station)
     end
 
     it 'Should store the complete journey in journey' do
