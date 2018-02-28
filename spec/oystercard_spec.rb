@@ -46,20 +46,24 @@ describe OysterCard do
   end
 
   describe '#touch_out' do
-    it 'Should set in_journey to false' do
-      expect(subject.touch_out).to eq(subject.entry_station)
-    end
 
     it 'Should deduct the MIN FARE from balance' do
       subject.top_up(1)
-      expect { subject.touch_out }.to change{ subject.balance }.by(-OysterCard::MIN_FARE)
+      expect { subject.touch_out(:fake_station) }.to change{ subject.balance }.by(-OysterCard::MIN_FARE)
     end
 
     it 'Should reset entry_station to nil on touch_out' do
       subject.top_up(1)
       subject.touch_in(:fake_station)
-      subject.touch_out
+      subject.touch_out(:fake_station)
       expect(subject.entry_station).to eq(nil)
+    end
+
+    it 'Should remember exit_station upon touch_out' do
+      subject.top_up(1)
+      subject.touch_in(:fake_station)
+      subject.touch_out(:fake_station)
+      expect(subject.exit_station).to eq(:fake_station)
     end
   end
 
