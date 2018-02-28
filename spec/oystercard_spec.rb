@@ -27,13 +27,22 @@ describe OysterCard do
   end
 
   describe '#touch_in' do
+    let(:fake_station) { double(:fake_station, touch_in: "test") }
+
     it 'Should set in_journey to true' do
       subject.top_up(1)
-      expect(subject.touch_in).to eq(true)
+      expect(subject.touch_in(fake_station)).to eq(subject.in_journey)
     end
 
     it 'Should raise error if balance is not greater than MIN FARE of 1' do
-      expect{ subject.touch_in }.to raise_error "Insufficient funds"
+      expect{ subject.touch_in(fake_station) }.to raise_error "Insufficient funds"
+    end
+
+    it "Sould record entry station upon touch in" do
+      station = double("station")
+      allow(subject).to receive(:touch_in).with(station).and_return("test")
+      subject.top_up(1)
+      expect(subject.touch_in(station)).to eq("test")
     end
   end
 
