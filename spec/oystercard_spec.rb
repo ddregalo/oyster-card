@@ -1,7 +1,7 @@
 require 'oystercard'
 
 describe OysterCard do
-  subject(:oystercard) { OysterCard.new } #gives fresh instance of Oystercard
+  let(:fake_station) { double(:fake_station) }
 
   it 'Should initialize with default balance of 0' do
       expect(subject.balance).to eq(0)
@@ -27,39 +27,47 @@ describe OysterCard do
   end
 
   describe '#touch_in' do
-    let(:fake_station) { double(:fake_station, touch_in: "test") }
 
     it 'Should set in_journey to true' do
       subject.top_up(1)
-      expect(subject.touch_in(fake_station)).to eq(subject.in_journey)
+      subject.touch_in(:fake_station)
+      expect(subject.in_journey?).to eq(true)
     end
 
     it 'Should raise error if balance is not greater than MIN FARE of 1' do
       expect{ subject.touch_in(fake_station) }.to raise_error "Insufficient funds"
     end
 
-    it "Sould record entry station upon touch in" do
-      station = double("station")
-      allow(subject).to receive(:touch_in).with(station).and_return("test")
+    it "Should record entry station upon touch in" do
       subject.top_up(1)
-      expect(subject.touch_in(station)).to eq("test")
+      subject.touch_in(:fake_station)
+      expect(subject.entry_station).to eq(:fake_station)
     end
   end
 
   describe '#touch_out' do
     it 'Should set in_journey to false' do
-      expect(subject.touch_out).to eq(false)
+      expect(subject.touch_out).to eq(subject.entry_station)
     end
 
     it 'Should deduct the MIN FARE from balance' do
       subject.top_up(1)
       expect { subject.touch_out }.to change{ subject.balance }.by(-OysterCard::MIN_FARE)
     end
+
+    it 'Should reset entry_station to nil on touch_out' do
+      subject.top_up(1)
+      subject.touch_in(:fake_station)
+      subject.touch_out
+      expect(subject.entry_station).to eq(nil)
+    end
   end
 
   describe '#in_journey?' do
     it 'Should return in_journey status' do
-      expect(subject.in_journey?).to eq(subject.in_journey)
+      subject.top_up(1)
+      subject.touch_in(:fake_station)
+      expect(subject.in_journey?).to eq(true)
     end
   end
 end
