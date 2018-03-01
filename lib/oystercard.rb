@@ -19,8 +19,8 @@ class OysterCard
   end
 
   def touch_out(station)
-    deduct(Journey::MIN_FARE)
     @journey.finish_journey(station)
+    deduct(@journey.fare)
   end
 
   private
