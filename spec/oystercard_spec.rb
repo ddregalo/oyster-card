@@ -1,7 +1,7 @@
 require 'oystercard'
 
 describe OysterCard do
-  let(:fake_station) { double(:fake_station) }
+  let(:fake_station) { double('fake_station') }
 
   it 'Should initialize with default balance of 0' do
       expect(subject.balance).to eq(0)
