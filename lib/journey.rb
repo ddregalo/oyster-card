@@ -31,10 +31,6 @@ class Journey
     @single_journey = {:entry => nil, :exit => nil}
   end
 end
-  # def in_journey?
-  #   return true if @single_journey[:entry]
-  # end
-
 
 
 # NOTES

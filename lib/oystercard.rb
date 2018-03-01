@@ -1,6 +1,6 @@
 class OysterCard
 
-  attr_reader :balance
+  attr_reader :balance, :journey
   MAX_BALANCE = 90
 
   def initialize(journey, balance = 0)
