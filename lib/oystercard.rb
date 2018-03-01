@@ -1,16 +1,11 @@
 class OysterCard
 
   attr_reader :balance
-  attr_reader :journey_history
-  attr_reader :journey
-
   MAX_BALANCE = 90
-  MIN_FARE = 1
 
-  def initialize(balance = 0)
+  def initialize(journey, balance = 0)
     @balance = balance
-    @journey_history = []
-    @journey = {:entry => nil , :exit => nil}
+    @journey = journey
   end
 
   def top_up(amount)
@@ -19,24 +14,17 @@ class OysterCard
   end
 
   def touch_in(station)
-    raise "Insufficient funds" if @balance < MIN_FARE
-    @journey[:entry] = station
+    raise "Insufficient funds" if @balance < Journey::MIN_FARE
+    @journey.start_journey(station)
   end
 
   def touch_out(station)
-    deduct(MIN_FARE)
-    @journey[:exit] = station
-    @journey_history << @journey
-    @journey[:entry] = nil
-  end
-
-  def in_journey?
-    return true if @journey[:entry]
+    deduct(Journey::MIN_FARE)
+    @journey.finish_journey(station)
   end
 
   private
   def deduct(amount)
     @balance -= amount
   end
-
 end

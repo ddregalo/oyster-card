@@ -1,4 +1,3 @@
 class Station
-  attr_reader :name
-  attr_reader :zone
+  attr_reader :name, :zone
 end
