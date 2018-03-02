@@ -5,7 +5,7 @@ class Journey
 
   def initialize(station_class)
     @journey_history = []
-    @single_journey = {:entry => nil , :exit => nil}
+    @single_journey = { :entry => nil, :exit => nil }
     @station_class = station_class
   end
 
@@ -37,18 +37,7 @@ class Journey
 
   private
   def current_journey
-    @single_journey = {:entry => nil, :exit => nil} if !@single_journey.include?(nil)
+    @single_journey = { :entry => nil, :exit => nil } if !@single_journey.include?(nil)
     @single_journey
   end
-  # def complete?
-  #   return true if (@single_journey[:entry] != nil) && (@single_journey[:exit] != nil)
-  # end
 end
-
-
-# NOTES
-# Touch-in + touch-put (normal case) works
-# Touch-out (no touchin) works
-# touchin (no touchout) - doesn't work
-
-# returning whether or not the journey is complete

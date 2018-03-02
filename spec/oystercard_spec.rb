@@ -5,7 +5,7 @@ describe OysterCard do
   let(:fake_station) { double('fake_station') }
   let(:fake_station_class) { double('station') }
   let(:fake_fare_class) { double('fare') }
-  subject(:subject) { OysterCard.new(Journey.new(fake_station_class, fake_fare_class)) }
+  subject(:subject) { OysterCard.new(Journey.new(fake_station_class)) }
 
   it 'Should initialize with default balance of 0' do
       expect(subject.balance).to eq(0)
@@ -38,9 +38,11 @@ describe OysterCard do
 
   describe '#touch_out' do
     it 'Should deduct the MIN FARE from balance' do
-      subject.top_up(1)
-      subject.touch_in(:fake_station)
-      expect { subject.touch_out(:fake_station) }.to change{ subject.balance }.by(-Journey::MIN_FARE)
+      allow(fake_station_class).to receive(:add_station).with(:fake_station) do
+        subject.top_up(1)
+        subject.touch_in(:fake_station)
+        expect { subject.touch_out(:fake_station) }.to change{ subject.balance }.by(-Journey::MIN_FARE)
+      end  
     end
   end
 end
