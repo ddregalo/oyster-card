@@ -10,14 +10,15 @@ class Journey
   end
 
   def start_journey(station)
+    @station_class.add_station(station)
     @single_journey[:entry] = station
   end
 
-  def current_fare
-    if @single_journey[:entry] == nil || @single_journey[:exit] == nil
+  def fare_calculator
+    if @single_journey.values.include?(nil)
       PENALTY_FARE
     else
-      MIN_FARE
+      MIN_FARE + ((@station_class.journey_stations[0][:zone]) - (@station_class.journey_stations[1][:zone])).abs
     end
   end
 
@@ -26,10 +27,12 @@ class Journey
   end
 
   def finish_journey(station)
+    @station_class.add_station(station)
     @single_journey[:exit] = station
-    @fare = current_fare
+    @fare = fare_calculator
     add_to_history
     current_journey
+    @station_class.clear_journey_stations
   end
 
 

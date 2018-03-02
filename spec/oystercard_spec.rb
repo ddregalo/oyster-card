@@ -4,7 +4,8 @@ require 'journey'
 describe OysterCard do
   let(:fake_station) { double('fake_station') }
   let(:fake_station_class) { double('station') }
-  subject(:subject) { OysterCard.new(Journey.new(fake_station_class)) }
+  let(:fake_fare_class) { double('fare') }
+  subject(:subject) { OysterCard.new(Journey.new(fake_station_class, fake_fare_class)) }
 
   it 'Should initialize with default balance of 0' do
       expect(subject.balance).to eq(0)
