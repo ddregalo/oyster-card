@@ -22,6 +22,18 @@ describe Journey do
     end
   end
 
+
+  describe '#current_journey' do
+    # testing the private class current_journey
+    it 'Should return the incomplete journey hash if journey not complete' do
+      allow_any_instance_of(Journey).to receive(:current_journey) do
+        subject.start_journey(:fake_station)
+        subject.finish_journey(:fake_station)
+        expect(subject.single_journey).to eq({:entry => nil, :exit => nil})
+      end
+    end
+  end
+
   describe '#finish_journey' do
     it 'Sould reset single journey entry and exit on touch out' do
       subject.start_journey(:fake_station)
