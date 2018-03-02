@@ -14,6 +14,14 @@ describe Journey do
     end
   end
 
+  describe '#add_to_history' do
+    it 'Should add the current single journey to journey history' do
+      subject.start_journey(:fake_station)
+      subject.finish_journey(:fake_station)
+      expect(subject.journey_history).to eq([{:entry => :fake_station , :exit => :fake_station}])
+    end
+  end
+
   describe '#finish_journey' do
     it 'Sould reset single journey entry and exit on touch out' do
       subject.start_journey(:fake_station)
