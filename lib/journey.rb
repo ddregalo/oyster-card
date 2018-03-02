@@ -35,7 +35,6 @@ class Journey
     @station_class.clear_journey_stations
   end
 
-
   private
   def current_journey
     @single_journey = {:entry => nil, :exit => nil} if !@single_journey.include?(nil)

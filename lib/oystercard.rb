@@ -23,6 +23,10 @@ class OysterCard
     deduct(@journey.fare)
   end
 
+  def timeout
+    touch_out(nil)
+  end
+
   private
   def deduct(amount)
     @balance -= amount
