@@ -28,7 +28,13 @@ class Journey
     @single_journey[:exit] = station
     @fare = current_fare
     @journey_history << @single_journey
-    @single_journey = {:entry => nil, :exit => nil}
+    current_journey
+  end
+
+  private
+  def current_journey
+    @single_journey = {:entry => nil, :exit => nil} if !@single_journey.include?(nil)
+    @single_journey
   end
 end
 
