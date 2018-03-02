@@ -2,7 +2,9 @@ require 'journey'
 require 'oystercard'
 
 describe Journey do
+  let(:fake_station_class) { double('station') }
   let(:fake_station) { double('fake_station') }
+  subject{ described_class.new(fake_station_class) }
 
   it 'Should initialize with empty journey_history' do
     expect(subject.journey_history).to eq([])

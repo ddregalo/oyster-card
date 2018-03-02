@@ -3,9 +3,10 @@ class Journey
   MIN_FARE = 1
   PENALTY_FARE = 6
 
-  def initialize
+  def initialize(station_class)
     @journey_history = []
     @single_journey = {:entry => nil , :exit => nil}
+    @station_class = station_class
   end
 
   def start_journey(station)
